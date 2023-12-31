@@ -61,6 +61,8 @@ wss.on("connection", function connection(ws) {
                             weather: null
                         }
                     }))
+
+                    console.log(waypointData);
                 }
             }
             )
