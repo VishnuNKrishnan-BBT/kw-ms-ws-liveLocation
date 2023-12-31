@@ -62,7 +62,7 @@ wss.on("connection", function connection(ws) {
                         }
                     }))
 
-                    console.log(waypointData);
+                    //console.log(waypointData);
                 }
             }
             )
