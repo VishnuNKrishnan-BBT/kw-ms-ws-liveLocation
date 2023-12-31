@@ -14,6 +14,8 @@ wss.on("connection", function connection(ws) {
         authToken: 'tegw6637288jjchd'
     }
 
+    let interval
+
     ws.on("message", function message(data) {
 
         //Authentication - Every message is authenticated due to sensitivity of data returned.
@@ -64,14 +66,14 @@ wss.on("connection", function connection(ws) {
             )
         }
 
-        const interval = setInterval(sendLastWaypoint, 2000)
+        interval = setInterval(sendLastWaypoint, 2000)
     })
 
 
 
 
-    // ws.on("message", function message(data) {
-    //     console.log("received: %s", data)
-    // })
-    // ws.send("something")
+    ws.on("close", function message(data) {
+        interval != undefined ? clearInterval(interval) : null
+        console.log('Socket closed');
+    })
 })
