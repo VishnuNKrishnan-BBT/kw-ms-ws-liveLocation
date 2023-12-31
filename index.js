@@ -2,7 +2,7 @@ import { WebSocketServer } from "ws"
 import { connectToDB } from './connectToDB.js'
 import { getLastWaypoint } from "./coreFunction/getLastWaypoint.js"
 
-const wss = new WebSocketServer({ port: 8080 })
+const wss = new WebSocketServer({ port: process.env.PORT || 4003 })
 
 connectToDB()
 
