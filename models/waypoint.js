@@ -26,6 +26,10 @@ const waypointSchema = new Schema({
         type: Number,
         required: true
     },
+    heading: {
+        type: Number,
+        required: true
+    },
     altitude: {
         type: Number,
         required: false

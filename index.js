@@ -21,6 +21,8 @@ wss.on("connection", function connection(ws) {
         //Authentication - Every message is authenticated due to sensitivity of data returned.
         const authData = JSON.parse(data)
 
+        //=================VALIDATE INCOMING DATA FOR VALID FORMAT TO AVOID SERVER CRASHING=============
+
         //Terminate connection on invalid auth token
         if (auth.authToken !== authData.authToken) {
             ws.send(JSON.stringify({
