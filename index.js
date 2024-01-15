@@ -43,13 +43,13 @@ wss.on("connection", function connection(ws) {
         const getWaypointData = () => {
             getLastWaypoint(authData.trackerId).then(result => {
                 if (result.status == 'fail') {
-                    returnData.waypointData = {
+                    returnData.waypoint = {
                         status: 500,
                         message: result.message,
                         data: null
                     }
                 } else if (result.status == 'success') {
-                    returnData.waypointData = {
+                    returnData.waypoint = {
                         status: 200,
                         message: null,
                         data: result.data
