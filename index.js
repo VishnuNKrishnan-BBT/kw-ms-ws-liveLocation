@@ -1,6 +1,7 @@
 import { WebSocketServer } from "ws"
 import { connectToDB } from './connectToDB.js'
 import { getLastWaypoint } from "./coreFunction/getLastWaypoint.js"
+import { getLastResolvedLocation } from "./coreFunction/getLastResolvedLocation.js"
 
 const wss = new WebSocketServer({ port: process.env.PORT || 4003 })
 
@@ -35,45 +36,60 @@ wss.on("connection", function connection(ws) {
         }
 
         //If authenticated...
-        let waypointData, resolvedLocationData, whetherData
 
-        const sendLastWaypoint = () => {
+        let returnData = {}
+
+        //WaypointData
+        const getWaypointData = () => {
             getLastWaypoint(authData.trackerId).then(result => {
                 if (result.status == 'fail') {
-                    waypointData = {
-                        message: result.message,
-                        data: null
-                    }
-                    ws.send(JSON.stringify({
+                    returnData.waypointData = {
                         status: 500,
                         message: result.message,
                         data: null
-                    }))
+                    }
                 } else if (result.status == 'success') {
-                    waypointData = {
+                    returnData.waypointData = {
+                        status: 200,
                         message: null,
                         data: result.data
                     }
-                    ws.send(JSON.stringify({
-                        status: 200,
-                        message: null,
-                        data: {
-                            waypoint: waypointData,
-                            resolvedLocation: null,
-                            weather: null
-                        }
-                    }))
-
-                    //console.log(waypointData);
                 }
-            }
-            )
+            })
         }
 
-        interval = setInterval(sendLastWaypoint, 2000)
+        //ResolvedLocationData
+        const getResolvedLocationData = () => {
+            getLastResolvedLocation(authData.trackerId).then(result => {
+                if (result.status == 'fail') {
+                    returnData.resolvedLocationData = {
+                        status: 500,
+                        message: result.message,
+                        data: null
+                    }
+                } else if (result.status == 'success') {
+                    returnData.resolvedLocationData = {
+                        status: 200,
+                        message: null,
+                        data: result.data
+                    }
+                }
+            })
+        }
+
+        getWaypointData()
+        getResolvedLocationData()
+
+        const sendData = () => {
+            ws.send(JSON.stringify({
+                status: 200,
+                message: null,
+                data: returnData
+            }))
+        }
+
+        interval = setInterval(sendData, 2000)
     })
-
-
 
 
     ws.on("close", function message(data) {
