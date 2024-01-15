@@ -62,13 +62,13 @@ wss.on("connection", function connection(ws) {
         const getResolvedLocationData = () => {
             getLastResolvedLocation(authData.trackerId).then(result => {
                 if (result.status == 'fail') {
-                    returnData.resolvedLocationData = {
+                    returnData.resolvedLocation = {
                         status: 500,
                         message: result.message,
                         data: null
                     }
                 } else if (result.status == 'success') {
-                    returnData.resolvedLocationData = {
+                    returnData.resolvedLocation = {
                         status: 200,
                         message: null,
                         data: result.data
