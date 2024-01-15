@@ -77,10 +77,10 @@ wss.on("connection", function connection(ws) {
             })
         }
 
-        getWaypointData()
-        getResolvedLocationData()
-
         const sendData = () => {
+            getWaypointData()
+            getResolvedLocationData()
+
             ws.send(JSON.stringify({
                 status: 200,
                 message: null,
