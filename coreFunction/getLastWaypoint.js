@@ -20,6 +20,8 @@ export const getLastWaypoint = async trackerId => {
     try {
         const lastWaypoint = await Waypoint.findOne({}).sort({ timestamp: -1 }).exec()
 
+        console.table({ timestamp: lastWaypoint.timestamp });
+
         if (lastWaypoint) {
             return {
                 status: 'success',
