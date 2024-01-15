@@ -20,6 +20,8 @@ export const getLastResolvedLocation = async trackerId => {
     try {
         const lastResolvedLocation = await ResolvedLocation.findOne({}).sort({ timestamp: -1 }).exec()
 
+        console.table({ uuid: lastResolvedLocation.uuid });
+
         if (lastResolvedLocation) {
             return {
                 status: 'success',
@@ -45,7 +47,7 @@ export const getLastResolvedLocation = async trackerId => {
         console.error(err)
         return {
             status: 'fail',
-            message: 'Error while fetching the last waypoint.',
+            message: 'Error while fetching the last resolved location.',
             data: null
         }
     }
