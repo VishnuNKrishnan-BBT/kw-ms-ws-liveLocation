@@ -1,5 +1,5 @@
 import Tracker from '../models/tracker.js'
-import createWaypointModel from '../models/waypoint.js'
+import LiveLocation from '../models/liveLocation.js'
 
 export const getLastWaypoint = async trackerId => {
     //Check if trackerId exists
@@ -14,11 +14,8 @@ export const getLastWaypoint = async trackerId => {
         }
     }
 
-    // Find the last document based on the timestamp field in descending order
-    const Waypoint = createWaypointModel(trackerId)
-
     try {
-        const lastWaypoint = await Waypoint.findOne({}).sort({ timestamp: -1 }).exec()
+        const lastWaypoint = await LiveLocation.findOne({ trackerId: trackerId })
 
         console.table({ timestamp: lastWaypoint.timestamp });
 
